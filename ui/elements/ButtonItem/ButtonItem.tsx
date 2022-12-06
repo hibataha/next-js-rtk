@@ -1,7 +1,7 @@
 interface IButtonItem {
   title: string;
   className: string;
-  onHandleClick?: () => void;  
+  onHandleClick?: (event: any) => void;  
   disabled?: boolean;
 }
 export const ButtonItem = (props: IButtonItem) => {

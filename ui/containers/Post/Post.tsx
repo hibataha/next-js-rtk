@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IPostItemModel } from "../../../models/interfaces";
+import { useDeletePostMutation } from "../../../services/postApi";
 import { ButtonItem } from "../../elements/ButtonItem/ButtonItem";
 import PostItemEditModal from "../PostItemEditModal/PostItemEditModal";
 import PostItemModal from "../PostItemModal/PostItemModal";
@@ -9,6 +10,12 @@ interface IPostItemProps {
 }
 const PostItem = ({ data }: IPostItemProps) => {
   const [open, setOpen] = useState({ edit: false, view: false });
+  const [deletePost] = useDeletePostMutation();
+  const handleDeletePost = (e: any) => {
+    e.preventDefault();
+    deletePost(data.id);
+    handleClose();
+  };
 
   const handleClose = () => {
     setOpen({ edit: false, view: false });
@@ -26,7 +33,7 @@ const PostItem = ({ data }: IPostItemProps) => {
               onHandleClick={() => setOpen({ ...open, edit: true })}
               className={"task__editButton"}
             />
-            <ButtonItem title="Delete Post" className={"task__deleteButton"} />
+            <ButtonItem title="Delete Post" onHandleClick={(event) => {handleDeletePost(event)}} className={"task__deleteButton"} />
           </div>
 
           <ButtonItem
@@ -50,6 +57,7 @@ const PostItem = ({ data }: IPostItemProps) => {
           data={{
             title: data.title,
             description: data.description,
+            id: data.id
           }}
           open={open.edit}
         />
