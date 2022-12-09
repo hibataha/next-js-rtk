@@ -1,14 +1,20 @@
+import { useRouter } from "next/router";
 import React, {useState} from "react";
 import { IPostItemModel } from "../../../models/interfaces";
-import { usePostsQuery } from "../../../services/postApi";
+import { useGetPostsQuery } from "../../../services/postApi";
 import AddPostModal from "../../containers/AddPostModal/AddPostModal";
 import Header from "../../containers/Header/Header";
 import PostItem from "../../containers/Post/Post";
 import { ButtonItem } from "../../elements/ButtonItem/ButtonItem";
 
 export const PostsList = () => {
-  const { data, error, isLoading, isSuccess } = usePostsQuery('');
-
+  const router = useRouter();
+  const result = useGetPostsQuery({}, {
+    // If the page is not yet generated, router.isFallback will be true
+    // initially until getStaticProps() finishes running
+    skip: router.isFallback,
+  });
+  const { data, error, isLoading, isSuccess } = result;
   const [openAddModal, setOpenAddModal] = useState(false)
   return (
     <>

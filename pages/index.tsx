@@ -1,7 +1,9 @@
 import Head from 'next/head'
+import Link from 'next/link';
+import { wrapper } from '../src/store';
 import styles from '../styles/Home.module.css'
 import PostTemplate from '../ui/templates/PostTemplate'
-export default function Home() {
+function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -10,7 +12,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PostTemplate />
+      <Link href={'/posts'}> POSTS </Link>
     </div>
   )
+}
+
+export default Home;
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
 }

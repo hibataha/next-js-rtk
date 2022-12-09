@@ -2,50 +2,59 @@ import {
     createApi,
     fetchBaseQuery
   } from "@reduxjs/toolkit/query/react";
-  
+import { HYDRATE } from "next-redux-wrapper";
+const fetch = require("isomorphic-fetch");
   export const postApi = createApi({
     reducerPath: "postsApi",
     baseQuery: fetchBaseQuery({
-      baseUrl: "http://localhost:5000/"
+      baseUrl: "http://localhost:5000/",
     }),
-    tagTypes: ["Post"],
+    extractRehydrationInfo(action, { reducerPath }) {
+      if (action.type === HYDRATE) {
+        return action.payload[reducerPath];
+      }
+    },
+    tagTypes: ['Post'],
     endpoints: (builder) => ({
-        posts: builder.query({
-            query: () => "/posts",
-            providesTags: ["Post"]
+        getPosts: builder.query({
+          query: () => `posts/`,
+          providesTags: ['Post']
+        }),
+        addPost: builder.mutation({
+          query: (task) => ({
+            url: "/posts",
+            method: "POST",
+            body: task
           }),
-          addPost: builder.mutation({
-            query: (task) => ({
-              url: "/posts",
-              method: "POST",
-              body: task
-            }),
-            invalidatesTags: ["Post"]
-
+          invalidatesTags: ['Post']
+        }),
+        updatePost: builder.mutation({
+          query: ({ id, ...rest }) => ({
+            url: `/posts/${id}`,
+            method: "PUT",
+            body: rest
           }),
-          updatePost: builder.mutation({
-            query: ({ id, ...rest }) => ({
-              url: `/posts/${id}`,
-              method: "PUT",
-              body: rest
-            }),
-            invalidatesTags: ["Post"]
-
+          invalidatesTags: ['Post']
+        }),
+        deletePost: builder.mutation({
+          query: (id) => ({
+            url: `/posts/${id}`,
+            method: "DELETE"
           }),
-          deletePost: builder.mutation({
-            query: (id) => ({
-              url: `/posts/${id}`,
-              method: "DELETE"
-            }),
-            invalidatesTags: ["Post"]
-            
-          })
+          invalidatesTags: ['Post']
+        })
     })
   });
 
+
   export const {
-    usePostsQuery,
+    useGetPostsQuery,
     useAddPostMutation,
     useUpdatePostMutation,
-    useDeletePostMutation
+    useDeletePostMutation,
+    util: { getRunningOperationPromises },
+
   } = postApi;
+  
+  // export endpoints for use in SSR
+  export const { getPosts, addPost, updatePost, deletePost } = postApi.endpoints;

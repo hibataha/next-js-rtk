@@ -2,7 +2,6 @@ import { useState } from "react";
 import { IPostItemModel } from "../../../models/interfaces";
 import { useAddPostMutation } from "../../../services/postApi";
 import Modal from "../Model/Model";
-
 interface IPostItemProps {
   open: boolean;
   onClose: any;
