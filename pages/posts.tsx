@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { IPostItemModel } from "../models/interfaces";
+import { IPostItemModel, PAGETYPE } from "../models/interfaces";
 import { getPosts, postApi, useGetPostsQuery } from "../services/postApi";
 import { wrapper } from "../src/store";
 import styles from "../styles/Home.module.css";
@@ -22,7 +22,7 @@ function Posts() {
         <MainLayout>
           <main style={{ height: "100%" }}>
             <div className="taskManager">
-              <Header />
+              <Header type={PAGETYPE.POST}/>
               <div className="isErrorIsLoading">
                 {error && <p>An error occured</p>}
                 {isLoading && <p>Loading...</p>}
@@ -40,6 +40,7 @@ function Posts() {
                     <div className="taskManager__tasks">
                       {data.map((post: IPostItemModel) => (
                         <PostItem
+                          type={PAGETYPE.POST} 
                           data={{
                             id: post.id,
                             title: post.title,
@@ -53,6 +54,7 @@ function Posts() {
                     <AddPostModal
                       onClose={() => setOpenAddModal(false)}
                       open={openAddModal}
+                      type={PAGETYPE.POST}
                     />
                   )}
                 </>

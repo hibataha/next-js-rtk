@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { createWrapper } from "next-redux-wrapper";
 import thunk from "redux-thunk";
 import { articlesApi } from "../services/articlesApi";
+import { postApi } from "../services/postApi";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
-      //[postApi.reducerPath]: postApi.reducer,
+      [postApi.reducerPath]: postApi.reducer,
       [articlesApi.reducerPath]: articlesApi.reducer
     },
-    middleware: (gDM) => gDM().concat(thunk,articlesApi.middleware),
+    middleware: (gDM) => gDM().concat(thunk,articlesApi.middleware, postApi.middleware),
   });
 
 

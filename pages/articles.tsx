@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { IPostItemModel } from "../models/interfaces";
+import { IPostItemModel, PAGETYPE } from "../models/interfaces";
 import { articlesApi, getArticles, useGetArticlesQuery } from "../services/articlesApi";
 import { wrapper } from "../src/store";
 import styles from "../styles/Home.module.css";
@@ -19,7 +19,7 @@ function Articles() {
         <MainLayout>
           <main style={{ height: "100%" }}>
             <div className="taskManager">
-              <Header />
+              <Header type={PAGETYPE.ARTICLE}/>
               <div className="isErrorIsLoading">
                 {error && <p>An error occured</p>}
                 {isLoading && <p>Loading ....</p>}
@@ -29,7 +29,7 @@ function Articles() {
                 <>
                   <div className="taskManager__container">
                     <ButtonItem
-                      title="Add Post +"
+                      title="Add Article +"
                       onHandleClick={() => setOpenAddModal(true)}
                       className={""}
                     />
@@ -37,6 +37,7 @@ function Articles() {
                     <div className="taskManager__tasks">
                       {data.map((post: IPostItemModel) => (
                         <PostItem
+                          type={PAGETYPE.ARTICLE} 
                           data={{
                             id: post.id,
                             title: post.title,
@@ -50,6 +51,7 @@ function Articles() {
                     <AddPostModal
                       onClose={() => setOpenAddModal(false)}
                       open={openAddModal}
+                      type={PAGETYPE.ARTICLE}
                     />
                   )}
                 </>

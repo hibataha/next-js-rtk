@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "server": "json-graphql-server db.js --p 5000"
+    "server:graphQL": "json-graphql-server articles.js --p 5000",
+    "server:fetchBaseQuery": "json-server --watch posts.json --p 5001"
+
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
