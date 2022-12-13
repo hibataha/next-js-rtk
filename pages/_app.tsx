@@ -26,18 +26,6 @@ import "../styles/globals.css";
 
 // export default wrapper.withRedux(App);
 
-
-// const { default: AbortController } = require("abort-controller");
-// const { default: fetch, Headers, Request, Response } = require("node-fetch");
-
-// Object.assign(globalThis, {
-//   fetch,
-//   Headers,
-//   Request,
-//   Response,
-//   AbortController,
-// });
-
 import { AppProps } from "next/app";
 const { wrapper } = require("../src/store");
 

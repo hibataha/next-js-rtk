@@ -3,11 +3,10 @@ import {
     fetchBaseQuery
   } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
-const fetch = require("isomorphic-fetch");
   export const postApi = createApi({
     reducerPath: "postsApi",
     baseQuery: fetchBaseQuery({
-      baseUrl: "http://localhost:5000/",
+      baseUrl: "http://localhost:5001/",
     }),
     extractRehydrationInfo(action, { reducerPath }) {
       if (action.type === HYDRATE) {

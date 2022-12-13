@@ -1,6 +1,11 @@
-const Header = () => {
+import { PAGETYPE } from "../../../models/interfaces";
+
+interface HeaderProps {
+    type: PAGETYPE;
+}
+const Header = ({type}: HeaderProps) => {
     return (
-        <header>POST MANAGER</header>
+        <header>{type === PAGETYPE.POST ? 'POST' : 'ARTICLE'} MANAGER</header>
     )
 };
 

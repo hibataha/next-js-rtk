@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, {useState} from "react";
-import { IPostItemModel } from "../../../models/interfaces";
+import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
 import { useGetPostsQuery } from "../../../services/postApi";
 import AddPostModal from "../../containers/AddPostModal/AddPostModal";
 import Header from "../../containers/Header/Header";
@@ -20,7 +20,7 @@ export const PostsList = () => {
     <>
     
      <div className='taskManager'>
-      <Header />
+      <Header type={PAGETYPE.ARTICLE} />
       <div className='isErrorIsLoading'>
     {error && <p>An error occured</p>}
     {isLoading && <p>Loading...</p>}
@@ -34,6 +34,7 @@ export const PostsList = () => {
         <div className='taskManager__tasks'>
         {data.map((post: IPostItemModel) => (
       <PostItem
+      type={PAGETYPE.ARTICLE}
       data={{id: post.id, title: post.title, description: post.description}}
      />
     ))}
@@ -41,7 +42,7 @@ export const PostsList = () => {
         </div>
       </div>
       {openAddModal &&
-        <AddPostModal onClose={() => setOpenAddModal(false)} open={openAddModal}/>
+        <AddPostModal type={PAGETYPE.ARTICLE} onClose={() => setOpenAddModal(false)} open={openAddModal}/>
       }
     </>)}
     </div>

@@ -1,14 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
+import thunk from "redux-thunk";
+import { articlesApi } from "../services/articlesApi";
 import { postApi } from "../services/postApi";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
-      [postApi.reducerPath]: postApi.reducer
+      [postApi.reducerPath]: postApi.reducer,
+      [articlesApi.reducerPath]: articlesApi.reducer
     },
-    middleware: (gDM) => gDM().concat(postApi.middleware),
+    middleware: (gDM) => gDM().concat(thunk,articlesApi.middleware, postApi.middleware),
   });
+
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore["getState"]>;
