@@ -5,7 +5,7 @@ interface HeaderProps {
 }
 const Header = ({type}: HeaderProps) => {
     return (
-        <header>{type === PAGETYPE.POST ? 'POST' : 'ARTICLE'} MANAGER</header>
+        <header>{type === PAGETYPE.POST ? 'POST' : type === PAGETYPE.Courses ? 'COURSES': 'ARTICLE'} MANAGER</header>
     )
 };
 

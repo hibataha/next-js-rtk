@@ -9,5 +9,6 @@ export interface IMainModel {
   export enum PAGETYPE {
     ARTICLE = "articles",
     POST = "post",
+    Courses = "courses"
   }
   

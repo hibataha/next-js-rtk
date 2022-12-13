@@ -13,6 +13,8 @@ function Home() {
 
       <Link href={'/posts'}> POSTS </Link>
       <Link href={'/articles'}> Articles </Link>
+      <Link href={'/courses'}> Courses </Link>
+
     </div>
   )
 }

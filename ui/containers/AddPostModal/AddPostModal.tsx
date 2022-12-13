@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
 import { useAddArticleMutation } from "../../../services/articlesApi";
+import { useAddCourseMutation } from "../../../services/coursesApi";
 import { useAddPostMutation } from "../../../services/postApi";
 import Modal from "../Model/Model";
 interface IPostItemProps {
@@ -9,7 +10,7 @@ interface IPostItemProps {
   type: PAGETYPE;
 }
 const AddPostModal = ({open, onClose, type }: IPostItemProps) => {
-  const [addPost, result] = (type === PAGETYPE.POST ? useAddPostMutation() : useAddArticleMutation());
+  const [addPost, result] = (type === PAGETYPE.POST ? useAddPostMutation() : (type === PAGETYPE.Courses ? useAddCourseMutation() : useAddArticleMutation()));
   const handleAddTask = async (e: any) => {
     e.preventDefault();
     const post = {

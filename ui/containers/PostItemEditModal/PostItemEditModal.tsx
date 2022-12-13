@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
 import { useUpdateArticleMutation } from "../../../services/articlesApi";
+import { useUpdateCourseMutation } from "../../../services/coursesApi";
 import { useUpdatePostMutation } from "../../../services/postApi";
 import Modal from "../Model/Model";
 
@@ -15,7 +16,7 @@ const PostItemEditModal = ({data, open, onClose, type}: IPostItemProps) => {
   const [id, setID] = useState(data.id)
 
   const [description, setDescription] = useState(data.description)
-  const [updatePost] = (type === PAGETYPE.ARTICLE ? useUpdateArticleMutation() : useUpdatePostMutation())
+  const [updatePost] = (type === PAGETYPE.ARTICLE ? useUpdateArticleMutation() : type === PAGETYPE.Courses ? useUpdateCourseMutation(): useUpdatePostMutation())
   const handleUpdatePost = (e: any) => {
     e.preventDefault();
     const task = {

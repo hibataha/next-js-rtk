@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
 import { useDeleteArticleMutation } from "../../../services/articlesApi";
+import { useDeleteCourseMutation } from "../../../services/coursesApi";
 import { useDeletePostMutation } from "../../../services/postApi";
 import { ButtonItem } from "../../elements/ButtonItem/ButtonItem";
 import PostItemEditModal from "../PostItemEditModal/PostItemEditModal";
@@ -12,7 +13,7 @@ interface IPostItemProps {
 }
 const PostItem = ({ data, type }: IPostItemProps) => {
   const [open, setOpen] = useState({ edit: false, view: false });
-  const [deletePost] = (type === PAGETYPE.ARTICLE ? useDeleteArticleMutation() : useDeletePostMutation());
+  const [deletePost] = (type === PAGETYPE.ARTICLE ? useDeleteArticleMutation() : type === PAGETYPE.Courses ? useDeleteCourseMutation() : useDeletePostMutation());
   const handleDeletePost = (e: any) => {
     e.preventDefault();
     deletePost(data.id);
@@ -31,18 +32,18 @@ const PostItem = ({ data, type }: IPostItemProps) => {
         <div className="task__buttons">
           <div className="task__deleteNedit">
             <ButtonItem
-              title={type === PAGETYPE.ARTICLE ? "Edit Article" : "Edit Post"}
+              title={type === PAGETYPE.ARTICLE ? "Edit Article" : type === PAGETYPE.Courses ? "Edit Course" : "Edit Post"}
               onHandleClick={() => setOpen({ ...open, edit: true })}
               className={"task__editButton"}
             />
             <ButtonItem 
-              title={type === PAGETYPE.ARTICLE ? "Delete Article" : "Delete Post"}
+              title={type === PAGETYPE.ARTICLE ? "Delete Article" : type === PAGETYPE.Courses ? "Delete Course" : "Delete Post"}
               onHandleClick={(event) => {handleDeletePost(event)}} className={"task__deleteButton"} />
           </div>
 
           <ButtonItem
-            title={type === PAGETYPE.ARTICLE ? "View Article" : "View Post"}
-            onHandleClick={() => setOpen({ ...open, view: true })}
+              title={type === PAGETYPE.ARTICLE ? "View Article" : type === PAGETYPE.Courses ? "View Course" : "View Post"}
+              onHandleClick={() => setOpen({ ...open, view: true })}
             className={""}
           />
         </div>

@@ -3,6 +3,7 @@ import {
     fetchBaseQuery
   } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
+const fetch = require("isomorphic-fetch");
   export const postApi = createApi({
     reducerPath: "postsApi",
     baseQuery: fetchBaseQuery({
