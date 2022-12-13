@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link';
-import { wrapper } from '../src/store';
 import styles from '../styles/Home.module.css'
-import PostTemplate from '../ui/templates/PostTemplate'
+
 function Home() {
   return (
     <div className={styles.container}>
@@ -13,6 +12,7 @@ function Home() {
       </Head>
 
       <Link href={'/posts'}> POSTS </Link>
+      <Link href={'/articles'}> Articles </Link>
     </div>
   )
 }

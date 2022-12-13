@@ -1,38 +1,35 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { IPostItemModel, PAGETYPE } from "../models/interfaces";
-import { getPosts, postApi, useGetPostsQuery } from "../services/postApi";
+import { articlesApi, getArticles, useGetArticlesQuery } from "../services/articlesApi";
 import { wrapper } from "../src/store";
 import styles from "../styles/Home.module.css";
-import { PostsList } from "../ui/components/PostsList/PostsList";
 import AddPostModal from "../ui/containers/AddPostModal/AddPostModal";
 import Header from "../ui/containers/Header/Header";
 import PostItem from "../ui/containers/Post/Post";
 import { ButtonItem } from "../ui/elements/ButtonItem/ButtonItem";
 import MainLayout from "../ui/layouts/MainLayout";
-import PostTemplate from "../ui/templates/PostTemplate";
-function Posts() {
-  const router = useRouter();
-  const result = useGetPostsQuery("");
+function Articles() {
+  const result = useGetArticlesQuery("");
   const { data, error, isLoading, isSuccess } = result;
   const [openAddModal, setOpenAddModal] = useState(false);
-  return (
+  return (                                
     <div className={styles.container}>
       <div>
         <MainLayout>
           <main style={{ height: "100%" }}>
             <div className="taskManager">
-              <Header type={PAGETYPE.POST}/>
+              <Header type={PAGETYPE.ARTICLE}/>
               <div className="isErrorIsLoading">
                 {error && <p>An error occured</p>}
-                {isLoading && <p>Loading...</p>}
+                {isLoading && <p>Loading ....</p>}
               </div>
 
-              {isSuccess && (
+              {data && (
                 <>
                   <div className="taskManager__container">
                     <ButtonItem
-                      title="Add Post +"
+                      title="Add Article +"
                       onHandleClick={() => setOpenAddModal(true)}
                       className={""}
                     />
@@ -40,7 +37,7 @@ function Posts() {
                     <div className="taskManager__tasks">
                       {data.map((post: IPostItemModel) => (
                         <PostItem
-                          type={PAGETYPE.POST} 
+                          type={PAGETYPE.ARTICLE} 
                           data={{
                             id: post.id,
                             title: post.title,
@@ -54,7 +51,7 @@ function Posts() {
                     <AddPostModal
                       onClose={() => setOpenAddModal(false)}
                       open={openAddModal}
-                      type={PAGETYPE.POST}
+                      type={PAGETYPE.ARTICLE}
                     />
                   )}
                 </>
@@ -69,12 +66,15 @@ function Posts() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    store.dispatch(getPosts.initiate(""));
-    await Promise.all(store.dispatch(postApi.util.getRunningQueriesThunk()));
+    store.dispatch(getArticles.initiate(""));
+    await Promise.all(store.dispatch(articlesApi.util.getRunningQueriesThunk()));
+
     return {
       props: {},
-    };
+    }
+   
   }
+
 );
 
-export default Posts;
+export default Articles;

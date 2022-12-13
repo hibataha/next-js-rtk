@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { IPostItemModel } from "../../../models/interfaces";
+import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
+import { useAddArticleMutation } from "../../../services/articlesApi";
 import { useAddPostMutation } from "../../../services/postApi";
 import Modal from "../Model/Model";
 interface IPostItemProps {
   open: boolean;
   onClose: any;
+  type: PAGETYPE;
 }
-const AddPostModal = ({open, onClose}: IPostItemProps) => {
-  const [addPost, result] = useAddPostMutation();
+const AddPostModal = ({open, onClose, type }: IPostItemProps) => {
+  const [addPost, result] = (type === PAGETYPE.POST ? useAddPostMutation() : useAddArticleMutation());
   const handleAddTask = async (e: any) => {
     e.preventDefault();
     const post = {
       title,
       description,
-      id: Math.random()
+      // id: Math.random()
     };
     await addPost(post);
     onClose();

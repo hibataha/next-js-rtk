@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IPostItemModel } from "../../../models/interfaces";
+import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
+import { useDeleteArticleMutation } from "../../../services/articlesApi";
 import { useDeletePostMutation } from "../../../services/postApi";
 import { ButtonItem } from "../../elements/ButtonItem/ButtonItem";
 import PostItemEditModal from "../PostItemEditModal/PostItemEditModal";
@@ -7,10 +8,11 @@ import PostItemModal from "../PostItemModal/PostItemModal";
 
 interface IPostItemProps {
   data: IPostItemModel;
+  type: PAGETYPE;
 }
-const PostItem = ({ data }: IPostItemProps) => {
+const PostItem = ({ data, type }: IPostItemProps) => {
   const [open, setOpen] = useState({ edit: false, view: false });
-  const [deletePost] = useDeletePostMutation();
+  const [deletePost] = (type === PAGETYPE.ARTICLE ? useDeleteArticleMutation() : useDeletePostMutation());
   const handleDeletePost = (e: any) => {
     e.preventDefault();
     deletePost(data.id);
@@ -29,15 +31,17 @@ const PostItem = ({ data }: IPostItemProps) => {
         <div className="task__buttons">
           <div className="task__deleteNedit">
             <ButtonItem
-              title="Edit Post"
+              title={type === PAGETYPE.ARTICLE ? "Edit Article" : "Edit Post"}
               onHandleClick={() => setOpen({ ...open, edit: true })}
               className={"task__editButton"}
             />
-            <ButtonItem title="Delete Post" onHandleClick={(event) => {handleDeletePost(event)}} className={"task__deleteButton"} />
+            <ButtonItem 
+              title={type === PAGETYPE.ARTICLE ? "Delete Article" : "Delete Post"}
+              onHandleClick={(event) => {handleDeletePost(event)}} className={"task__deleteButton"} />
           </div>
 
           <ButtonItem
-            title="View Post"
+            title={type === PAGETYPE.ARTICLE ? "View Article" : "View Post"}
             onHandleClick={() => setOpen({ ...open, view: true })}
             className={""}
           />
@@ -53,6 +57,7 @@ const PostItem = ({ data }: IPostItemProps) => {
       )}
       {open.edit && (
         <PostItemEditModal
+          type={type}
           onClose={handleClose}
           data={{
             title: data.title,

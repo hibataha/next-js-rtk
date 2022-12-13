@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IPostItemModel } from "../../../models/interfaces";
+import { IPostItemModel, PAGETYPE } from "../../../models/interfaces";
+import { useUpdateArticleMutation } from "../../../services/articlesApi";
 import { useUpdatePostMutation } from "../../../services/postApi";
 import Modal from "../Model/Model";
 
@@ -7,13 +8,14 @@ interface IPostItemProps {
   data: IPostItemModel;
   open: boolean;
   onClose: any;
+  type: PAGETYPE;
 }
-const PostItemEditModal = ({data, open, onClose}: IPostItemProps) => {
+const PostItemEditModal = ({data, open, onClose, type}: IPostItemProps) => {
   const [title, setTitle] = useState(data.title)
   const [id, setID] = useState(data.id)
 
   const [description, setDescription] = useState(data.description)
-  const [updatePost] = useUpdatePostMutation();
+  const [updatePost] = (type === PAGETYPE.ARTICLE ? useUpdateArticleMutation() : useUpdatePostMutation())
   const handleUpdatePost = (e: any) => {
     e.preventDefault();
     const task = {

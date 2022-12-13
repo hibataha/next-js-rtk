@@ -5,4 +5,9 @@ export interface IMainModel {
     title: string;
     description: string;
   }
+
+  export enum PAGETYPE {
+    ARTICLE = "articles",
+    POST = "post",
+  }
   
